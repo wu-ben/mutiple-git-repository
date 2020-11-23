@@ -1,0 +1,92 @@
+
+一、git config 存于3个位置
+1. /ect/gitconfig  // 系统级 查看 --system -l
+2. ~/.gitconfig  // 用户级  查看 --global -l
+3. 仓库目录/.git/config  项目级 查看 --local -l
+4. 查看生效配置 git config -l
+
+二、操作指定级别的config
+1. 查看全局设置
+    git config --global --list  // --list 简写 -l
+
+2. 增加项
+    git config --global --add configName configValue
+    git config --global --add user.name hahaha  // 增加user.name为hahaha
+
+3. 修改
+    git config --global configName configValue  // 只能修改唯一configName的值
+
+4. 删除
+    git config --global --unset configName
+
+5. 多个值时无法删除，需要替换
+    git config --global --replace-all user.name "wuhf"
+
+----------------------------------------------------------------
+三、本机建立2个git账号
+1. 创建SSH Key
+    ssh-keygen -t rsa -C "whf81248@163.com"
+   指定命名称
+    Enter file in which to save the key (/root/.ssh/id_rsa): /root/.ssh/id_rsa_gitee
+   按2次回车，表示密码设为空
+
+   添加文件到ssh，因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中
+    ssh-add ~/.ssh/id_rsa_gitee
+
+   如果出现Could not open a connection to your authentication agent的错误，运行
+    ssh-agent bash
+    ssh-add ~/.ssh/id_rsa_gitee
+
+2. 创建 github 的SSH Key为
+    ssh-keygen -t rsa -C "whf82828@gmail.com"
+   命名为
+    id_rsa_github
+
+3. 在ssh文件夹下新建config文件，编辑内容
+    # gitee
+    Host gitee
+    HostName gitee.com
+    IdentityFile ~/.ssh/id_rsa_gitee
+
+    # github 
+    Host github
+    HostName github.com
+    IdentityFile ~/.ssh/id_rsa_github
+
+5. 复制id_rsa_xxx 的内容到对应的网站
+
+6. 测试是否连接成功
+    ssh -T git@github.com
+    ssh -T git@github  // 或者使用config中配置的Host
+
+    ssh -T git@gitee.com
+    ssh -T git@gitee  // 使用config中Host配置
+
+7. Clone 到本地
+    git clone git@github.com:wu-ben/learngit.git  // 未配置config时
+    git clone git@github:wu-ben/learngit.git  // 配置了config，用config里的Host配置项
+
+
+
+四、同时关联2个远程仓库
+1. 把目录变成git仓库
+    git init
+
+2. 在github 和 gitee上分别建立远程仓库 mutiple-git-repository
+
+3. 关联github，远程仓库起名叫mutihub
+    git remote add mutihub git@github.com:wu-ben/mutiple-git-repository.git
+
+4. 关联gitee,远程仓库名起名叫ee
+    git remote add mutiee git@gitee.com:whf20g/mutiple-git-repository
+
+5. 查看远程仓库
+    git remote -v
+
+---------------------------------------------
+
+五、
+1. 用本地github_gmail账户关联github远程mutiple-git-repository仓库，远程仓库重命名为muti-hub
+git remote add mutihub git@github_gmail:wu-ben/mutiple-git-repository.git
+
+
