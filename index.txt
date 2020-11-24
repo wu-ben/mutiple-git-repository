@@ -43,7 +43,7 @@
     User whf20g
     IdentityFile ~/.ssh/id_rsa_gitee
 
-    # github 
+    # github
     Host github
     HostName github.com
     User wu-ben
@@ -60,7 +60,7 @@
 
     如果没有正在运行的 ssh-agent，运行
     eval "$(ssh-agent -s)"
-     
+
   (2) 添加私钥
    ssh-add ~/.ssh/id_rsa_gitee
 
@@ -115,7 +115,8 @@
     git push -u mutihub master  // 第一次推送加上-u，之后就不用了
     git push --set-upstream mutihub master  // -u 的完整写法
 
-git@github.com:wu-ben/mutiple-git-repository.git
+-----------------------------------------------
+这里是wuhf-163的提交
 
 Updates were rejected because the remote contains work that you do
 not have locally. This is usually caused by another repository pushing
