@@ -37,17 +37,19 @@
     id_rsa_github
 
 3. 在ssh文件夹下新建config文件，编辑内容
-    # gitee
-    Host gitee
-    HostName gitee.com
-    User whf20g
-    IdentityFile ~/.ssh/id_rsa_gitee
-
-    # github
+    # gitHub whf81248@163.com
     Host github
     HostName github.com
+    # User并不是user.name，不知有什么用
+    User hp-hub-163
+    # 私钥
+    IdentityFile ~/.ssh/id_rsa
+
+    # gitHub whf82828@gmail.com
+    Host github_gmail
+    HostName github.com
     User wu-ben
-    IdentityFile ~/.ssh/id_rsa_github
+    IdentityFile ~/.ssh/id_rsa_github_gmail
 
 4. 复制id_rsa_xxx 的内容到对应的网站的SSH里
 
@@ -81,29 +83,64 @@
     git config --global --unset user.email
 
 8. 为每个项目添加自己的账号和邮箱
+    cd d:\github-163
+    git config user.name "wuhf"
+    git config user.email "whf81248@163.com"
 
-
+    cd d:\github-gmail
+    git config user.name "wu-ben"
+    git config user.email "whf82828@gamil.com"
 
 7. Clone 到本地
     git clone git@github.com:wu-ben/learngit.git  // 未配置config时
     git clone git@github:wu-ben/learngit.git  // 配置了config，用config里的Host配置项
+-------------------------------------------------
 
-
-
-四、同时关联2个远程仓库
+一、一个目录同时关联2个远程仓库，只能用相同的ssh，因为一个目录只能用一个user.anme和user.email
 1. 把目录变成git仓库
     git init
 
-2. 在github 和 gitee上分别建立远程仓库 mutiple-git-repository
+2. 把163的ssh复制到github和gitee网站上
 
-3. 关联github，远程仓库起名叫mutihub
-    git remote add mutihub git@github.com:wu-ben/mutiple-git-repository.git
+3. 在github 和 gitee上分别建立远程仓库 mutiple-git-repository
 
-4. 关联gitee,远程仓库名起名叫mutiee
+4. 关联github，远程仓库起名叫mutihub
+    配置过config文件，不用写域名(github.com)了，写config文件里配置的Host (github)就行了
+    git remote add mutihub git@github:wu-ben/mutiple-git-repository.git
+
+5. 关联gitee,远程仓库名起名叫mutiee
     git remote add mutiee git@gitee.com:whf20g/mutiple-git-repository
 
-5. 查看远程仓库
+6. 查看远程仓库
     git remote -v
+
+7. 推送到远程
+    git push mutihub master // 推送到github
+    git push mutiee master // 推送到gitee
+
+8. 远程建了目录，本地也建了目录，已经建立了映射，但是推送报错
+   Updates were rejected because the remote contains work that you do
+   not have locally. This is usually caused by another repository pushing
+   to the same ref. You may want to first integrate the remote changes
+   (e.g., 'git pull ...') before pushing again.
+   See the 'Note about fast-forwards' in 'git push --help' for details.
+
+   (1) 需要先pull
+    git pull mutiee master
+   报错 fatal: refusing to merge unrelated histories 本地和远程历史不相同
+
+   (2) 强制合并历史 加上--allow-unrelated-history 合并两个独立启动仓库的历史
+    git pull mutiee master:master --allow-unrelated-histories // :前后相同可省略一个
+
+   (3) git status 查看文件状态，有需要合并的文件，需要合并一下再提交
+    Unmerged paths
+        both added: README.md
+
+   (4) 将本地更改提交
+    git add filename
+    git commit -m "xxx"
+
+
 
 ---------------------------------------------
 
@@ -123,14 +160,6 @@ to the same ref. You may want to first integrate the remote changes
 (e.g., 'git pull ...') before pushing again.
 See the 'Note about fast-forwards' in 'git push --help' for details.
 
-
-If you are planning on basing your work on an upstream
-branch that already exists at the remote, you may need to
-run "git fetch" to retrieve it.
-
-If you are planning to push out a new local branch that
-will track its remote counterpart, you may want to use
-"git push -u" to set the upstream config as you push.
 
 
 $ git fetch <远程主机名> <远程分支名>:<本地分支名>
