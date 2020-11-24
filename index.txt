@@ -43,7 +43,7 @@
     User whf20g
     IdentityFile ~/.ssh/id_rsa_gitee
 
-    # github 
+    # github
     Host github
     HostName github.com
     User wu-ben
@@ -60,7 +60,7 @@
 
     如果没有正在运行的 ssh-agent，运行
     eval "$(ssh-agent -s)"
-     
+
   (2) 添加私钥
    ssh-add ~/.ssh/id_rsa_gitee
 
@@ -138,7 +138,7 @@ $ git pull <远程主机名> <远程分支名>:<本地分支名>
 如果远程分支是与当前分支合并，则冒号后面的部分可以省略：
 
 1. git fetch origin 远程分支mast:本地分支test // 拉取远程分支mast，并创建本地分支test，不切换分支
-    本地新建分支，但是不会切换到该本地分支，不会和远程分支建立映射关系。需要手动checkout切换分支。 
+    本地新建分支，但是不会切换到该本地分支，不会和远程分支建立映射关系。需要手动checkout切换分支。
 
 2. git checkout -b 本地分支test origin/远程分支mast  //拉取远程分支mast，并创建本地分支test，本地切换到test分支
     创建的本地分支会与远程分支建立映射关系
@@ -152,4 +152,4 @@ $ git pull <远程主机名> <远程分支名>:<本地分支名>
     fatal: refusing to merge unrelated histories
     拒绝合并不相关的历史
     解决: 加上--allow-unrelated-history 合并两个独立启动仓库的历史
-    git pull origin master:master --allow-unrelated-histories // :前后相同可省略一个 
+    git pull origin master:master --allow-unrelated-histories // :前后相同可省略一个
