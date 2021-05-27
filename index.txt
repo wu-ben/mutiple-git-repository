@@ -1,3 +1,10 @@
+https://github.com
+gmail.com/W****github
+wu-ben
+
+http://gitee.com
+163.com/w***gitee
+whf20g
 
 一、git config 存于3个位置
 1. /ect/gitconfig  // 系统级 查看 --system -l
@@ -54,19 +61,26 @@
 4. 复制id_rsa_xxx 的内容到对应的网站的SSH里
 
 5. 添加文件到ssh，因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中
-    ssh-agent：是一个可以控制和保存公钥身份验证所使用的私钥的程序，可以理解为一个密钥管理器
+    ssh 依次从下面的三个地方读取配置。
+        命令行选项，就是指ssh -i， -i (IdentitiesOnly) 选项的默认值包含 ~/.ssh/id_rsa
+        用户级配置文件 ~/.ssh/config
+        系统级配置文件 /etc/ssh/ssh_config
+    ssh-agent：是一个可以控制和保存公钥身份验证所使用的私钥的程序，可以理解为一个密钥管理器。所有其他窗口或程序都作为 ssh-agent 程序的客户端启动
     ssh-agent 是一个守护进程（daemon），设计它的唯一目的就是对解密的专用私钥进行高速缓存。
 
   (1) 清空私钥
     $ ssh-add -D
 
     如果没有正在运行的 ssh-agent，运行
-    eval "$(ssh-agent -s)"
+    exec ssh-agent bash  // 静默启动 ssh-agent
+    eval ssh-agent -s  //
 
-  (2) 添加私钥
-   ssh-add ~/.ssh/id_rsa_gitee
 
-   如果出现Could not open a connection to your authentication agent的错误，运行
+  (2) 添加私钥，可添加多个
+   ssh-add ~/.ssh/id_rsa_gitee  // 指定具体路径的写法：ssh-add "C:\Users\Administrator\.ssh\my_first_private_key"
+
+
+   如果出现 Could not open a connection to your authentication agent (无法打开到身份验证代理的连接)的错误，运行
     ssh-agent bash
     ssh-add ~/.ssh/id_rsa_gitee
 
@@ -74,7 +88,7 @@
    ssh-add -l
 
 6. 测试是否连接成功
-    ssh -T git@github.com // 未配置config时
+    ssh -T git@gitee.com // 未配置config时
     ssh -T git@github  // 使用config中配置的Host
     ssh -T git@gitee  // 使用config中Host配置
 
